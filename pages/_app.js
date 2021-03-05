@@ -10,7 +10,6 @@ import LayoutWrapper from '@/components/LayoutWrapper'
 import MDXComponents from '@/components/MDXComponents'
 
 export default function App({ Component, pageProps }) {
-  console.log(pageProps)
   return (
     <ThemeProvider attribute="class">
       <MDXProvider components={MDXComponents}>
