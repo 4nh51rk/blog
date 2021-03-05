@@ -52,3 +52,196 @@ Once you're all setup, let's start off by creating some dummy data using our `Tr
 Now that we have a list of transactions we can think about how we are going to fetch this data from our client slide.
 
 Let's head over to our `index` method in our `TransactionController` file where we will return our list of transactions when the method is called.
+
+```php
+// ...
+public function index()
+{
+    return TransactionResource::collection(Transaction::latest()->get())->response();
+}
+// ...
+```
+
+## Fetching Our Transactions
+
+Let's start off by creating a new constant in our `mutation-types` file called `FETCH_TRANSACTIONS`
+
+`resources/js/store/mutation-types`
+
+```javascript
+export const FETCH_TRANSACTIONS = 'FETCH_TRANSACTIONS'
+```
+
+`resources/js/store/modules/transactions`
+
+```javascript
+// ...
+export const getters = {
+  transactions: (state) => state.transactions,
+}
+// ...
+```
+
+```javascript
+// ...
+export const mutations = {
+    [types.FETCH_TRANSACTIONS](state, { transactions }) {
+        state.transactions = transactions
+    },
+},
+// ...
+```
+
+In the code above, our `FETCH_TRANSACTIONS` mutation takes in `transactions` data and updates the state.
+
+```javascript
+// ...
+export const actions = {
+    async fetchTransactions({ commit } {
+        try {
+            const { data } = await axios.get(`/api/transactions`)
+
+            commit(types.FETCH_TRANSACTIONS, { transactions: data })
+        } catch (e) {
+            console.log("ERROR", e)
+        }
+    },
+}
+// ...
+```
+
+In our `fetchTransactions` method above, we peform a `GET` request to our API above, once we get the data back from our API, we commit our `FETCH_TRANSACTIONS` mutation.
+
+Now we're ready to make an API call from our `DataTable` component.
+
+`resources/js/DataTable.vue`
+
+```javascript
+export default {
+  data: () => ({
+    loading: true,
+    columns: ['date', 'category', 'payee', 'amount', 'account', 'notes'],
+  }),
+  mounted() {
+    this.fetchTransactions()
+  },
+  computed: {
+    ...mapGetters({
+      transactions: 'transactions/transactions',
+    }),
+  },
+  methods: {
+    async fetchTransactions() {
+      //Fetch transactions
+      await this.$store.dispatch('transactions/fetchTransactions')
+      this.loading = false
+    },
+  },
+}
+```
+
+In our `fetchTranactions` method above, we can access the store using `this.$store` which is available in all our of child components, and then reference the `fetchTransactions` action method in our `store` which makes an API call to our database to fetch all transactions, which is called when the component is mounted and sets a loading variable to false to indicate that the data was fetched successfully.
+
+```html
+<div>
+  <div>
+    <div v-if="loading">Loading...</div>
+    <div v-else class="bg-white rounded-sm shadow mt-2 overflow-auto max-h-screen">
+      <table class="border-collapse w-full whitespace-no-wrap bg-white">
+        // ...
+      </table>
+    </div>
+  </div>
+</div>
+```
+
+We will now need to create a new data property that will contain an array of column headings which we will then loop over and display the column name.
+
+```javascript
+export default {
+  data: () => ({
+    loading: true,
+    columns: ["date", "category", "payee", "amount", "account", "notes"],
+  }),
+```
+
+```html
+<th>
+    <input
+        class="form-checkbox focus:outline-none focus:shadow-outline"
+    />
+    </label>
+</th>
+<th
+    v-for="(column, index) in columns"
+    :key="index"
+    class="w-40 bg-gray-100 sticky top-0 border-solid border border-gray-200 cursor-pointer px-6 py-3 text-gray-600 font-bold tracking-wider uppercase text-xs"
+>
+  <span>{{ column }}</span>
+</th>
+```
+
+We are now reading to start outputting our data to our data-table, let's start by looping over our transaction data and display the data in each column.
+
+```html
+<tbody>
+  <template>
+    <tr
+      v-for="transaction in transactionList"
+      :key="transaction.id"
+      class="max-h-2 hover:bg-gray-50 cursor-pointer"
+    >
+      <td class="border-dashed border-t border-gray-200 px-3">
+        <label
+          class="text-teal-500 inline-flex justify-between items-center hover:bg-gray-200 px-2 py-2 rounded-lg cursor-pointer"
+        >
+          <input
+            v-model="selected"
+            :value="transaction.id"
+            type="checkbox"
+            class="form-checkbox rowCheckbox focus:outline-none focus:shadow-outline"
+          />
+        </label>
+      </td>
+      <td class="border-solid border border-gray-200">
+        <span class="text-gray-700 px-6 py-1 flex items-center">{{ transaction.date }}</span>
+      </td>
+      <td class="border-solid border border-gray-200">
+        <span class="text-gray-700 px-6 py-1 flex items-center">{{ transaction.category }}</span>
+      </td>
+      <td class="border-solid border border-gray-200">
+        <span class="text-gray-700 px-6 py-1 flex items-center">{{ transaction.payee }}</span>
+      </td>
+      <td class="border-solid border border-gray-200">
+        <span class="text-gray-700 px-6 py-1 flex items-center">${{ transaction.amount }}</span>
+      </td>
+      <td class="border-solid border border-gray-200">
+        <span class="text-gray-700 px-6 py-1 flex items-center">{{ transaction.account }}</span>
+      </td>
+      <td class="border-solid border border-gray-200">
+        <span class="text-gray-700 px-6 py-1 flex items-center">{{ transaction.notes }}</span>
+      </td>
+      <td v-on:click="updateTransaction(transaction)" class="border-solid border border-gray-200">
+        <div class="flex flex-col justify-center items-center">
+          <span class="">
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"
+              ></path>
+            </svg>
+          </span>
+        </div>
+      </td>
+    </tr>
+  </template>
+</tbody>
+```
