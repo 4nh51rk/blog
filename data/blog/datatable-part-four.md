@@ -1,10 +1,11 @@
 ---
-title: Build a datatable with Laravel, Vuejs and Tailwind Part 3
-date: '2021-03-01'
+title: Build a datatable with Laravel, Vuejs and Tailwind Part 4
+date: '2021-03-07'
 tags: ['laravel', 'vuejs', 'tailwindcss', 'datatable']
 draft: false
 summary: In this series, we will go through the process of building a data-table with VueJS & Laravel. We will be covering a wide range of topics such as performing CRUD operations, searching, sorting and advanced filtering to give you a good base to build upon, improve and modify to meet the requirements of your application.
 ---
+
 
 Depending on the amount of data in our table we want to display to a user, we might decide to show all content at once, or show only a specific part of a bigger data set. The main reason behind showing only a specific range of our data is that we want to keep our applications as performant as possible and prevent fetching a large amount of data being fetched from our database and rendered on the page.
 

@@ -27,27 +27,18 @@ export default function About() {
             <div className="flex pt-6 space-x-3">
               <SocialIcon kind="mail" href={`mailto:${siteMetadata.email}`} />
               <SocialIcon kind="github" href={siteMetadata.github} />
-              <SocialIcon kind="facebook" href={siteMetadata.facebook} />
-              <SocialIcon kind="youtube" href={siteMetadata.youtube} />
-              <SocialIcon kind="linkedin" href={siteMetadata.linkedin} />
               <SocialIcon kind="twitter" href={siteMetadata.twitter} />
             </div>
           </div>
           <div className="pt-8 pb-8 prose dark:prose-dark max-w-none xl:col-span-2">
             <p>
-              Tails Azimuth is a professor of atmospheric sciences at the Stanford AI Lab. His
-              research interests includes complexity modelling of tailwinds, headwinds and
-              crosswinds.
+            I’ve been writing code for the last 4 years. During those years, I’ve focused on written c++, php and javascript. Development is a space that I love full of constant improvement and new and exciting technology.
             </p>
             <p>
-              He leads the clean energy group which develops 3D air pollution-climate models, writes
-              differential equation solvers, and manufactures titanium plated air ballons. In his
-              free time he bakes raspberry pi.
+            Though constantly changing, my focus right now is React.js, Vue, Node.js, Laravel.
             </p>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque elit, tristique
-              placerat feugiat ac, facilisis vitae arcu. Proin eget egestas augue. Praesent ut sem
-              nec arcu pellentesque aliquet. Duis dapibus diam vel metus tempus vulputate.
+            I have a few hobbies/interests. I love endurance training (running, biking & rowing), tinkering with DIY projects around the house & cooking.
             </p>
           </div>
         </div>
