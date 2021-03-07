@@ -32,7 +32,7 @@ export default function About() {
           </div>
           <div className="pt-8 pb-8 prose dark:prose-dark max-w-none xl:col-span-2">
             <p>
-            I’ve been writing code for the last 4 years. During those years, I’ve focused on written c++, php and javascript. Development is a space that I love full of constant improvement and new and exciting technology.
+            Hey, I'm Ben. I’ve been writing code for the last 4 years. During those years, I’ve focused on written c++, php and javascript. Development is a space that I love full of constant improvement and new and exciting technology.
             </p>
             <p>
             Though constantly changing, my focus right now is React.js, Vue, Node.js, Laravel.
