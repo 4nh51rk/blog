@@ -3,12 +3,16 @@ title: Build a datatable with Laravel, Vuejs and Tailwind Part 1
 date: '2021-03-01'
 tags: ['laravel', 'vuejs', 'tailwindcss', 'datatable']
 draft: false
-summary: In this series, we will go through the process of building a data-table with VueJS & Laravel. We will be covering a wide range of topics such as performing CRUD operations, searching, sorting and advanced filtering to give you a good base to build upon, improve and modify to meet the requirements of your application.
+summary: In this series, we'll set up and go through the process of building a data-table with Laravel, VueJS and TailwindCSS. We'll be covering a wide range of topics and features such as CRUD operations, searching, advanced filtering, sorting and record limiting.
+
+At the end of this series, you will walk away with a good foundation to improve and build upon to meet any further requirements.
 ---
 
 ## Introduction
 
-In this series, we will go through the process of building a data-table with VueJS & Laravel. We will be covering a wide range of topics such as performing CRUD operations, searching, sorting and advanced filtering to give you a good base to build upon, improve and modify to meet the requirements of your application.
+In this series, we'll set up and go through the process of building a data-table with Laravel, VueJS and TailwindCSS. We'll be covering a wide range of topics and features such as CRUD operations, searching, advanced filtering, sorting and record limiting.
+
+At the end of this series, you will walk away with a good foundation to improve and build upon to meet any further requirements.
 
 Before we start we need to address that creating a data table requires careful planning and consideration. Depending on what kind of application you are building, you need to determine if records should be created or updated inline or in a pop-up modal? Should records be grouped or not grouped? Do you need flexible column sizing?
 
@@ -16,7 +20,7 @@ As you can see, data tables come with a set of challenges. From a design perspec
 
 From a functionality perspective, we need to be able to create, read, update and delete data. With all of this data, we need to paginate, search, sort and apply complex filtering options.
 
-However, we will not be covering testing since it's a huge topic in itself and that's not what this book is about.
+Since testing is a huge topic in itself, we will not be covering any testing in this series.
 
 ## Tech Stack
 

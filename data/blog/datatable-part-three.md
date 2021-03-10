@@ -3,12 +3,12 @@ title: Build a datatable with Laravel, Vuejs and Tailwind Part 3
 date: '2021-03-04'
 tags: ['laravel', 'vuejs', 'tailwindcss', 'datatable']
 draft: false
-summary: In this series, we will go through the process of building a data-table with VueJS & Laravel. We will be covering a wide range of topics such as performing CRUD operations, searching, sorting and advanced filtering to give you a good base to build upon, improve and modify to meet the requirements of your application.
+summary: In this section, we will be covering implementing quick search functionality to search all columns in our data-table to display all relevant results, based on a users search query. Along with building this, we'll also add in record limiting to display a certain number of records.
 ---
 
 ## Introduction
 
-In this section, we will be covering how to implement quick search functionality based on a users search query, as well as implementing record limiting into our data table.
+In this section, we will be covering implementing quick search functionality to search all columns in our data-table to display all relevant results, based on a users search query. Along with building this, we'll also add in record limiting to display a certain number of records.
 
 We will be handling our record searching on the client-side search querying and filtering data available in our state but you may choose to perform this action on the server depending on if you have a large number of records filter through.
 
