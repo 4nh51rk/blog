@@ -5,7 +5,7 @@ tags: ['laravel', 'vuejs', 'tailwindcss', 'datatable']
 draft: false
 summary: In this series, we will go through the process of building a data-table with VueJS & Laravel. We will be covering a wide range of topics such as performing CRUD operations, searching, sorting and advanced filtering to give you a good base to build upon, improve and modify to meet the requirements of your application.
 ---
-$
+
 ## Introduction
 
 In this series, we will go through the process of building a data-table with VueJS & Laravel. We will be covering a wide range of topics such as performing CRUD operations, searching, sorting and advanced filtering to give you a good base to build upon, improve and modify to meet the requirements of your application.
@@ -53,7 +53,7 @@ Now that we have a list of transactions we can think about how we are going to f
 
 Let's head over to our `index` method in our `TransactionController` file where we will return our list of transactions when the method is called.
 
-```php{4}
+```php{4}:app/Http/Controllers/TransactionController.php
 // ...
 public function index()
 {
@@ -66,15 +66,11 @@ public function index()
 
 Let's start off by creating a new constant in our `mutation-types` file called `FETCH_TRANSACTIONS`
 
-`resources/js/store/mutation-types`
-
-```javascript
+```javascript:resources/js/store/mutation-types
 export const FETCH_TRANSACTIONS = 'FETCH_TRANSACTIONS'
 ```
 
-`resources/js/store/modules/transactions`
-
-```javascript{2,3,4}
+```javascript{2,3,4}:resources/js/store/modules/transactions
 // ...
 export const getters = {
   transactions: (state) => state.transactions,
@@ -82,7 +78,7 @@ export const getters = {
 // ...
 ```
 
-```javascript{3,4,5}
+```javascript{3,4,5}:resources/js/store/modules/transactions
 // ...
 export const mutations = {
     [types.FETCH_TRANSACTIONS](state, { transactions }) {
@@ -94,7 +90,7 @@ export const mutations = {
 
 In the code above, our `FETCH_TRANSACTIONS` mutation takes in `transactions` data and updates the state.
 
-```javascript{3,4,5,6,7,8,9,10,11}
+```javascript{3,4,5,6,7,8,9,10,11}:resources/js/DataTable.vue
 // ...
 export const actions = {
     async fetchTransactions({ commit } {
@@ -114,9 +110,8 @@ In our `fetchTransactions` method above, we peform a `GET` request to our API ab
 
 Now we're ready to make an API call from our `DataTable` component.
 
-`resources/js/DataTable.vue`
 
-```javascript{6-20}
+```javascript{6-20}:resources/js/DataTable.vue
 export default {
   data: () => ({
     loading: true,
@@ -141,7 +136,7 @@ export default {
 
 In our `fetchTranactions` method above, we can access the store using `this.$store` which is available in all our of child components, and then reference the `fetchTransactions` action method in our `store` which makes an API call to our database to fetch all transactions, which is called when the component is mounted and sets a loading variable to false to indicate that the data was fetched successfully.
 
-```html{3,4}
+```html{3,4}:resources/js/DataTable.vue
 <div>
   <div>
     <div v-if="loading">Loading...</div>
@@ -156,7 +151,7 @@ In our `fetchTranactions` method above, we can access the store using `this.$sto
 
 We will now need to create a new data property that will contain an array of column headings which we will then loop over and display the column name.
 
-```javascript{4}
+```javascript{4}:resources/js/DataTable.vue
 export default {
   data: () => ({
     loading: true,
@@ -164,7 +159,7 @@ export default {
   }),
 ```
 
-```html{5}
+```html{5}:resources/js/DataTable.vue
 <th>
     <input
         class="form-checkbox focus:outline-none focus:shadow-outline"
@@ -182,7 +177,7 @@ export default {
 
 We are now reading to start outputting our data to our data-table, let's start by looping over our transaction data and display the data in each column.
 
-```html{3,6,10,13,16,19,22,25}
+```html{3,6,10,13,16,19,22,25}:resources/js/DataTable.vue
 <tbody>
   <template>
     <tr
