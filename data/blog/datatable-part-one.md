@@ -90,12 +90,12 @@ export const mutations = {
 // ...
 ```
 
-In the code above, our `FETCH_TRANSACTIONS` mutation takes in `transactions` data and updates the state.
+In the code above, we're creating a `transactions` function which will return out transactions from our state. In our mutation objects, we're creating a mutation function`FETCH_TRANSACTIONS` which takes in our `transactions` and updates the state with our transactions.
 
 ```javascript{3,4,5,6,7,8,9,10,11}:resources/js/DataTable.vue
 // ...
 export const actions = {
-    async fetchTransactions({ commit } {
+    async fetchTransactions({ commit }) {
         try {
             const { data } = await axios.get(`/api/transactions`)
 
@@ -108,16 +108,15 @@ export const actions = {
 // ...
 ```
 
-In our `fetchTransactions` method above, we peform a `GET` request to our API above, once we get the data back from our API, we commit our `FETCH_TRANSACTIONS` mutation.
+In the method above, we're performing an API call to get all the `transactions` from our database, once we get the data back from our API, we commit our `FETCH_TRANSACTIONS` mutation which mutates our state, adding on all of our transactions.
 
-Now we're ready to make an API call from our `DataTable` component.
+Let's now move onto to our data-table and start referencing these vuex methods we have just setup, and start displaying our `transactions` in our table.
 
 
 ```javascript{6-20}:resources/js/DataTable.vue
 export default {
   data: () => ({
     loading: true,
-    columns: ['date', 'category', 'payee', 'amount', 'account', 'notes'],
   }),
   mounted() {
     this.fetchTransactions()
@@ -183,7 +182,7 @@ We are now reading to start outputting our data to our data-table, let's start b
 <tbody>
   <template>
     <tr
-      v-for="transaction in transactionList"
+      v-for="transaction in transactions.data"
       :key="transaction.id"
       class="max-h-2 hover:bg-gray-50 cursor-pointer"
     >
