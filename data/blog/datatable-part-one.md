@@ -3,9 +3,7 @@ title: Build a datatable with Laravel, Vuejs and Tailwind Part 1
 date: '2021-03-01'
 tags: ['laravel', 'vuejs', 'tailwindcss', 'datatable']
 draft: false
-summary: In this series, we'll set up and go through the process of building a data-table with Laravel, VueJS and TailwindCSS. We'll be covering a wide range of topics and features such as CRUD operations, searching, advanced filtering, sorting and record limiting.
-
-At the end of this series, you will walk away with a good foundation to improve and build upon to meet any further requirements.
+summary: In this series, we'll set up and go through the process of building a data-table with Laravel, VueJS and TailwindCSS. We'll be covering a wide range of topics and features such as CRUD operations, searching, advanced filtering, sorting and record limiting. At the end of this series, you will walk away with a good foundation to improve and build upon to meet any further requirements.
 ---
 
 ## Introduction

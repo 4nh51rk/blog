@@ -8,7 +8,6 @@ summary: In this series, we will go through the process of building a data-table
 
 In this section, we will be covering bulk deletion of our records with select checkboxes on the left hand side of each row in our data-table. Once we have all our records selected, an array of record IDs will be passed through to our API and then deleted.
 
-
 Lets start off by creating a new selected array in our new data property, and specify this new property using `v-model` to dynamically update our property, passing through the `transaction` ID as the value.
 
 ```javascript{3}
