@@ -160,7 +160,7 @@ export default {
   }),
 ```
 
-```html{5}:resources/js/DataTable.vue
+```html{5,6}:resources/js/DataTable.vue
 <th>
     <input
         class="form-checkbox focus:outline-none focus:shadow-outline"
@@ -191,8 +191,6 @@ We are now reading to start outputting our data to our data-table, let's start b
           class="text-teal-500 inline-flex justify-between items-center hover:bg-gray-200 px-2 py-2 rounded-lg cursor-pointer"
         >
           <input
-            v-model="selected"
-            :value="transaction.id"
             type="checkbox"
             class="form-checkbox rowCheckbox focus:outline-none focus:shadow-outline"
           />
@@ -218,25 +216,12 @@ We are now reading to start outputting our data to our data-table, let's start b
       </td>
       <td class="border-solid border border-gray-200">
         <div class="flex flex-col justify-center items-center">
-          <span class="">
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9 5l7 7-7 7"
-              ></path>
-            </svg>
-          </span>
+          <span><icon name="details" /></span>
         </div>
       </td>
     </tr>
   </template>
 </tbody>
 ```
+
+This now concludes part 1 of this series, in which we set up a vuex store to fetch data from our backend and rendering our data inside our table. In the next part, we'll implement a quick search feature, as well as record limiting in our table.

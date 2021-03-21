@@ -87,68 +87,32 @@ In our table heading, we can now create a click event, which sorts a column by e
 
 For a nice visual effect, we can add up/down svg arrows depending on if a direction is selected for that column, otherwise, no arrow will be displayed.
 
-```html:resources/js/DataTable.vue
-<th
-    v-for="(column, index) in columns"
-    :key="index"
+```html{6,13,19}:resources/js/DataTable.vue
+<th v-for="(column, index) in columns" :key="index"
     class="w-40 bg-gray-100 sticky top-0 border-solid border border-gray-200 cursor-pointer px-6 py-3 text-gray-600 font-bold tracking-wider uppercase text-xs"
-    @click="sortColumn(column)"
-    >
+    @click="sortColumn(column)">
     <template v-if="sort.column === column">
-<div
-     class="flex items-center"
-     v-if="sort.direction === 'asc'"
-     >
-    <span class="mr-2">{{ column }}</span>
-    <span>
-        <svg
-             class="w-4 h-4"
-             fill="none"
-             stroke="currentColor"
-             viewBox="0 0 24 24"
-             xmlns="http://www.w3.org/2000/svg"
-             >
-            <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M5 15l7-7 7 7"
-                  ></path>
-        </svg>
-        </span>
+        <div class="flex items-center" v-if="sort.direction === 'asc'">
+            <span class="mr-2">{{ column }}</span>
+            <span>
+                <icon name="arrow-down" />
+            </span>
         </div>
-<div
-     class="flex items-center"
-     v-if="sort.direction === 'desc'"
-     >
-    <span class="mr-2">{{ column }}</span>
-    <span>
-        <svg
-             class="w-4 h-4"
-             fill="none"
-             stroke="currentColor"
-             viewBox="0 0 24 24"
-             xmlns="http://www.w3.org/2000/svg"
-             >
-            <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 9l-7 7-7-7"
-                  ></path>
-        </svg>
-        </span>
+        <div class="flex items-center" v-if="sort.direction === 'desc'">
+            <span class="mr-2">{{ column }}</span>
+            <span>
+                <span>
+                    <icon name="arrow-up" />
+                </span>
+            </span>
         </div>
     </template>
 
-    <template v-else
-              ><span>{{ column }}</span></template
->
-        </th>
+    <template v-else><span>{{ column }}</span></template>
+</th>
 <th
-    class="w-4 bg-gray-100 sticky top-0 border-solid border border-gray-200 px-6 py-3 text-gray-600 font-bold tracking-wider uppercase text-xs"
-    ></th>
-        </tr>
+    class="w-4 bg-gray-100 sticky top-0 border-solid border border-gray-200 px-6 py-3 text-gray-600 font-bold tracking-wider uppercase text-xs">
+</th>
 ```
 
 Now we can define our `sortColumn` method and set both the column and direction depending on the direction already set in our data property.
