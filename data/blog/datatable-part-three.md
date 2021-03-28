@@ -21,7 +21,7 @@ In this example, we will be covering the latter as it's more commonly used offer
 
 Let's start off by adding a new `searchQuery` data property and update this property by attaching a `v-model` binding to our search input field to update this property whenever the user types into this field.
 
-```html
+```html{2}
 <!-- -->
 <input
        v-model="searchQuery"

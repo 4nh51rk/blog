@@ -16,9 +16,8 @@ Pagination is a great use case for a component, so we will go through the proces
 
 Let's create a `Pagination.vue` component in our `Components` folder and copy the following markup into that file.
 
-`Pagination.vue`
 
-```html
+```html:resources/js/Components/Pagination.vue
 <template>
   <div class="flex items-center py-4 w-64">
     <div class="flex items-center">
@@ -26,27 +25,16 @@ Let's create a `Pagination.vue` component in our `Components` folder and copy th
         href="#"
         class="mr-4 px-2 py-2 inline-flex items-center text-sm leading-5 font-medium hover:text-gray-800 hover:bg-gray-100 rounded-lg text-gray-500 focus:outline-none transition ease-in-out duration-150"
       >
-        <svg
-          class="mr-3 h-5 w-5 text-gray-400"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
-            clip-rule="evenodd"
-          />
-        </svg>
+        <icon name="prev"/>
         Previous
       </a>
     </div>
     <ul class="flex pl-0 list-none rounded my-2">
-      <li v-for="page in meta.last_page" :key="page">
+      <li>
         <a
           href="#"
           class="px-3 py-2 text-center inline-flex items-center text-sm leading-5 font-medium hover:text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-none transition ease-in-out duration-150"
         >
-          {{ page }}
         </a>
       </li>
     </ul>
@@ -56,46 +44,34 @@ Let's create a `Pagination.vue` component in our `Components` folder and copy th
         class="ml-4 px-2 py-2 inline-flex items-center text-sm leading-5 font-medium hover:text-gray-800 hover:bg-gray-100 rounded-lg text-gray-500 focus:outline-none transition ease-in-out duration-150"
       >
         Next
-        <svg
-          class="ml-3 h-5 w-5 text-gray-400"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          />
-        </svg>
+        <icon name="next" />
       </a>
     </div>
   </div>
 </template>
 
 <script>
+import Icon from '../Components/Icon'
 export default {
+  components: {
+    Icon
+  },
   props: ["meta"],
 
 };
 </script>
 ```
 
-Now, in our `DataTable` component, we can import that component, and render it under our table.
+Back in our `DataTable` component, let's register and render the `Pagination` component we just created onto the page.
 
-`DataTable.vue`
 
-```javascript
+```javascript:resources/js/DataTable.vue
 import Pagination from "./Components/Pagination";
 
-//...
-```
-
-```javascript
 //...
 components: {
 	//...
 	Pagination,
-},
 ```
 
 ````html{5}
@@ -113,21 +89,12 @@ components: {
 
 In laravel, the `paginate` method takes care of all the heavy lifting, such as number of records to display per page, number of pages, last page and the current page, which is based of the page query string argument on a HTTP request.
 
-As shown above, we pass this meta data as through as a prop to our `Pagination` component and now we can reference the `meta` prop in our component.
+As shown above, we pass this meta data as through as a prop to our `Pagination` component which we can then loop through all of our pages by getting the total number of pages by using the `last_page` property in our `meta` object.
 
-```javascript
-<script>
-export default {
-  props: ["meta"],
-}
-</script>
-```
-
-```html
+```html:resources/js/Components/Pagination.vue
 <!-- -->
 <li v-for="page in meta.last_page" :key="page">
     <a
-        @click.prevent="changePage(page)"
         href="#"
         class="pr-1 px-2 py-2 inline-flex items-center text-sm leading-5 font-medium hover:text-gray-800 hover:bg-gray-100 rounded-lg text-gray-500 focus:outline-none transition ease-in-out duration-150"
     >
@@ -137,9 +104,11 @@ export default {
 
 In our `Pagination` component, we can now add in a new click event to each rendered page and call `changePage` while passing through the page number to that method.
 
+In a moment we'll create a new method called `changePage`. But for now, lets add a click event to each page calling this method and passing through the current page.
+
 `Pagination.vue`
 
-```html
+```html{3}:resources/js/Components/Pagination.vue
 <!-- -->
 <li v-for="page in meta.last_page" :key="page">
     <a
@@ -156,7 +125,7 @@ We can also add this method to our `prev` and `next` buttons by getting the curr
 
 Additionally, we need to indicate to the user if the `prev` and `next` buttons are available, if so, display hovering classes, otherwise show a disabled cursor.
 
-```html
+```html{3}:resources/js/Components/Pagination.vue
 <!-- -->
 <div class="flex items-center">
         <a
@@ -172,7 +141,7 @@ Additionally, we need to indicate to the user if the `prev` and `next` buttons a
 <!-- -->
 ```
 
-```html
+```html{3}:resources/js/Components/Pagination.vue
 <!-- -->
 <div class="flex justify-end">
     <a
@@ -189,9 +158,9 @@ Additionally, we need to indicate to the user if the `prev` and `next` buttons a
 <!-- -->
 ```
 
-We can now add this method which emits an event back to our `DataTable` component and passes a page through as an argument.
+Let's create this new `changePage` method which emits an event back to our `DataTable` component which then passes through the page as an argument
 
-```javascript
+```javascript{1-4}:resources/js/Components/Pagination.vue
   methods: {
       changePage(page) {
           this.$emit('page-change', page)
@@ -199,22 +168,23 @@ We can now add this method which emits an event back to our `DataTable` componen
   }
 ```
 
-Back in our `DataTable` component, we can listen for this event and then call `fetchTransactions`
+Back in our `DataTable` component, lets now listen for this event and then call `fetchTransactions` function.
 
-```html
+```html{2}:resources/js/DataTable.vue
 <div class="flex justify-end">
     <Pagination
     	:meta="this.transactions.meta"
-        v-on:page-change="fetchTransactions"
+      v-on:page-change="fetchTransactions"
     />
 </div>
 ```
 
-This method can now accept the page argument which was being passed through in the `changePage` method earlier, and always setting the default page to 1.
+Since we passed through the page number as an argument along with the event emit, we can accept this argument in our `fetchTransactions` method and set the `page` argument to default to the first page.
 
-Each time this function is now called when navigating to a new page, a dispatch function is called and calls the `fetchTransactions` function in our `vuex` store passing the `page` value
+Each time this function is now called when navigating to a new page, we then dispatch an event to our `vuex` store and pass through the page value.
 
-```javascript
+
+```javascript{1,4,6}:resources/js/DataTable.vue
 async fetchTransactions(page = 1) {
     //Fetch transactions
     const limit = this.limit
@@ -228,8 +198,8 @@ async fetchTransactions(page = 1) {
 
 In our `vuex` store, we need to modify our `fetchTransactions` function.
 
-```javascript
-...
+```javascript{3,5}:resources/js/store/modules/transactions.js
+//...
 export const actions = {
     async fetchTransactions({ commit }, { limit, page }) {
         try {
@@ -249,8 +219,8 @@ And pass the `page` and number as a query parameter to our API endpoint ``/api/t
 
 Before we continue on to the next section, we need to address a bug which allows you to travel outside of the page range i.e. if you keep navigating to the next or previous pages, you can go outside of the number of pages which are available.
 
-```javascript
-...
+```javascript{3-6}:resources/js/Components/Pagination.vue
+//...
 methods: {
     changePage(page) {
         if (page <= 0 || page > this.meta.last_page) {
@@ -258,7 +228,7 @@ methods: {
         }
         this.$emit("page-change", page);
     },
-...
+//...
 ```
 
 To prevent this issue, we can check if the `page` number that was passed through is less than or equal to 0 OR the page is greater than the last page number in our meta data.
@@ -271,25 +241,25 @@ If this condition is met, we can return and do nothing further, otherwise we emi
 
 Let's start off by created a new data property `pagesPerSection` that determines the amount of pages that we want to show per section.
 
-```javascript
-...
+```javascript{3}:resources/js/Components/Pagination.vue
+//...
 data: () => ({
     pagesPerSection: 4,
 }),
-...
+//...
 ```
 
 Next, create a new computed property called `numberOfSections`, this method is going to divide the total amount of pages by `pagesPerSection` property that we defined above and round to the nearest integer.
 
 Example: 25 (pages) / 4 (pagesPerSection) = 6.25 (7 by rounding up to the nearest integer)
 
-```javascript
-...
+```javascript{2-5}:resources/js/Components/Pagination.vue
+// ...
 computed: {
     numberOfSections() {
         return Math.ceil(this.meta.last_page / this.pagesPerSection);
     },
-...
+// ...
 ```
 
 We also need to find out which section the user is currently on, we can do this by getting the current page and divide that by `pagesPerSection`.
@@ -298,20 +268,20 @@ Example 1: 2 (current page) / 4 = 0.5 (1 by rounding up to nearest integer)
 
 Example 2: 9 (current page) / 4 = 2.25 (3 by rounding up to nearest integer)
 
-```javascript
+```javascript{3-6}:resources/js/Components/Pagination.vue
 computed: {
-    ...
+    // ...
     currentSection() {
         return Math.ceil(this.meta.current_page / this.pagesPerSection);
     },
-...
+// ...
 ```
 
 First, we need to get the current page that the user is on, we can get this value by calling our `currentSection` computed property and taking away 1 and multiple that value by `pagesPerSection` + 1
 
 
 
-```javascript
+```javascript:resources/js/Components/Pagination.vue
 pages() {
     const startPage = (this.currentSection - 1) * this.pagesPerSection + 1;
 },
@@ -333,15 +303,16 @@ First, we check if the current section that we are on is equal to the total numb
 
 Otherwise, return our current section less one and multiply that by the number of sections adding on pages per section.
 
-```javascript
+```javascript{3-8}:resources/js/Components/Pagination.vue
 computed: {
-    getLastPage() {
-      if (this.currentSection === this.numberOfSections) {
-        return this.meta.last_page;
-      }
+  // ...
+  getLastPage() {
+    if (this.currentSection === this.numberOfSections) {
+      return this.meta.last_page;
+    }
 
-      return (this.currentSection - 1) * this.numberOfSections + this.pagesPerSection;
-    },
+    return (this.currentSection - 1) * this.numberOfSections + this.pagesPerSection;
+  },
 }
 ```
 
@@ -355,7 +326,7 @@ Example 2: (The user is currently on section 3 with a total of 4 sections and 4 
 
 Now that what our start and finish pages should be for the current section that the user is on, we can create a new method `generateSectionPages` that takes in our starting page and last page adding on one as it's exclusive.
 
-```javascript
+```javascript{4}:resources/js/Components/Pagination.vue
 pages() {
     const startPage = (this.currentSection - 1) * this.pagesPerSection + 1;
 
@@ -363,8 +334,9 @@ pages() {
 },
 ```
 
-```javascript
+```javascript{3-5}:resources/js/Components/Pagination.vue
 methods: {
+  // ...
     generateSectionPages(start, end) {
     	return new Array(end - start).fill().map((_, index) => index + start);
 	},
@@ -381,7 +353,7 @@ Example: `new Array(3).fill()` = `[undefined, undefined, undefined]`
 
 Example:
 
-```javascript
+```javascript:resources/js/Components/Pagination.vue
 calcPageRange(start = 12, end = 15) {
     return new Array(end - start).fill().map((_, index) => index + start);
 },
@@ -391,9 +363,11 @@ returns an array containing the following page ranges: `[12, 13, 14]`
 
 Now that we are successfully generating an array of page numbers per section, let's change our `v-for` loop to now loop through our `pages` computed property.
 
-```html
+```html{3}:resources/js/Components/Pagination.vue
+<!-- -->
 <ul class="flex pl-0 list-none rounded">
     <li v-for="page in pages" :key="page">
+<!-- -->
 ```
 
 You should now see while being on section 1, that pages [1, 2, 3, 4] are available.
@@ -404,8 +378,8 @@ We also need to make sure to display the first page (on the far left) and the la
 
 We can do this by adding in a new template tag before our generated pages list, and check if the current section that the user is on is greater than 1, if so, allow the user to navigate to page 1.
 
-```html
-...
+```html{3-7}:resources/js/Components/Pagination.vue
+<!-- -->
 <ul class="flex pl-0 list-none rounded">
     <template v-if="currentSection > 1">
         <a
@@ -417,12 +391,13 @@ We can do this by adding in a new template tag before our generated pages list, 
             </a>
     </template>
     <li v-for="page in pages" :key="page">
-...
+<!-- -->
 ```
 
 We can do a very similar thing for the last page, by checking if the current section the user is on is less than the number of sections, then we can show the last page from our meta data.
 
-```html
+```html{3-7}:resources/js/Components/Pagination.vue
+<!-- -->
     </li>
         <template v-if="currentSection < numberOfSections">
             <a
@@ -434,6 +409,7 @@ We can do a very similar thing for the last page, by checking if the current sec
                </a>
         </template>
 </ul>
+<!-- -->
 ```
 
 ### Navigate through sections
@@ -442,7 +418,7 @@ For navigating between sections, we can add in a new anchor tag between our dyna
 
 For going back previous sections, we need to add a new click event to the anchor tag and call a method `navigateSection` that we will be creating shortly and passing through `prev` as an argument.
 
-```html
+```html:resources/js/Components/Pagination.vue
 ...
 <ul class="flex pl-0 list-none rounded">
     <template v-if="currentSection > 1">
@@ -466,7 +442,7 @@ For going back previous sections, we need to add a new click event to the anchor
 
 For going back previous sections, we need to add a new click event to the anchor tag and call a method `navigateSection` and passing through `prev` as an argument.
 
-```html
+```html:resources/js/Components/Pagination.vue
 </li>
     <template v-if="currentSection < numberOfSections">
 		<a
@@ -488,7 +464,7 @@ For going back previous sections, we need to add a new click event to the anchor
 
 Create a new method called `navigateSection` and add a new argument `direction` which accepts either `next` or `prev` as an argument.
 
-```javascript
+```javascript:resources/js/Components/Pagination.vue
 methods: {
     navigateSection(direction) {
         const value = direction === "next" ? +1 : -1;
