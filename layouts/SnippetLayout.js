@@ -1,7 +1,6 @@
 import Link from '@/components/Link'
 import Tag from '@/components/Tag'
 import siteMetdata from '@/data/siteMetadata'
-import { useState } from 'react'
 
 const snippetDateTemplate = { year: 'numeric', month: 'long', day: 'numeric' }
 
@@ -9,21 +8,13 @@ export default function SnippetLayout({ snippets, title }) {
     return (
         <>
             <div className="divide-y">
-                <ul>
+                <ul class="grid grid-cols-2">
                     {!snippets.length && 'No snippets found.'}
                     {snippets.map((frontMatter) => {
                         const { slug, date, title, summary, tags } = frontMatter
                         return (
                             <li key={slug} className="py-4">
                                 <article className="space-y-2 xl:grid xl:grid-cols-4 xl:space-y-0 xl:items-baseline">
-                                    <dl>
-                                        <dt className="sr-only">Published on</dt>
-                                        <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
-                                            <time dateTime={date}>
-                                                {new Date(date).toLocaleDateString(siteMetdata.locale, snippetDateTemplate)}
-                                            </time>
-                                        </dd>
-                                    </dl>
                                     <div className="space-y-3 xl:col-span-3">
                                         <div>
                                             <h3 className="text-2xl font-bold leading-8 tracking-tight">
@@ -40,7 +31,16 @@ export default function SnippetLayout({ snippets, title }) {
                                         <div className="prose text-gray-500 max-w-none dark:text-gray-400">
                                             {summary}
                                         </div>
+                                        <dl>
+                                            <dt className="sr-only">Published on</dt>
+                                            <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                                                <time dateTime={date}>
+                                                    {new Date(date).toLocaleDateString(siteMetdata.locale, snippetDateTemplate)}
+                                                </time>
+                                            </dd>
+                                        </dl>
                                     </div>
+
                                 </article>
                             </li>
                         )

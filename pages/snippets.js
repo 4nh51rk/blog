@@ -10,7 +10,6 @@ export async function getStaticProps() {
 }
 
 export default function Snippets({ snippets }) {
-    console.log('snippets', snippets)
     return (
         <>
             <PageSeo
