@@ -1,6 +1,6 @@
 ---
 title: Laravel real-time updates with a Vue frontend using laravel-websockets
-date: '2016-03-08'
+date: '2020-03-08'
 tags: ['Laravel', 'VueJS', 'Laravel-Websockets']
 draft: false
 summary: This tutorial will go through building a real-time broadcasting app with Laravel & VueJS. We'll be building a realtime application where you can post and like other users posts, displaying updates in real-time.
