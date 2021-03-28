@@ -1,0 +1,28 @@
+---
+title: Localize data for your region
+date: '2021-03-28'
+tags: ['Laravel', 'php']
+draft: false
+summary: Return localized data for a region with Faker
+---
+
+Seeding data with Faker, you can specify a locale to return localized data for that region.
+
+[See a list of locale providers here](https://github.com/fzaninotto/Faker/tree/master/src/Faker/Provider)
+
+`config/app.php`
+![laravel-faker](/static/images/tips/laravel-faker.png)
+
+Now any locale specific data that we create will be created based on our specified region.
+```php
+public function definition()
+{
+    return [
+        'name' => $this->faker->name,
+        'phone' => $this->faker->address,
+        'address' => $this->faker->phoneNumber,
+    ];
+}
+```
+
+![localized-data-db](/static/images/tips/localized-data-db.jpg)
