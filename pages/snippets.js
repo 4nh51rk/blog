@@ -1,6 +1,6 @@
 import { getAllFilesFrontMatter } from '@/lib/mdx'
 import siteMetadata from '@/data/siteMetadata'
-import ListLayout from '@/layouts/ListLayout'
+import SnippetLayout from '@/layouts/SnippetLayout'
 import { PageSeo } from '@/components/SEO'
 
 export async function getStaticProps() {
@@ -14,11 +14,11 @@ export default function Snippets({ snippets }) {
     return (
         <>
             <PageSeo
-                title={`Snippets - ${siteMetadata.author}`}
+                title={`snippets - ${siteMetadata.author}`}
                 description={siteMetadata.description}
                 url={`${siteMetadata.siteUrl}/snippets`}
             />
-            <h1>hi</h1>
+            <SnippetLayout snippets={snippets} title="All Snippets" />
         </>
     )
 }
