@@ -4,7 +4,7 @@
   "headerTitle": "Kronic",
   "description": "Tutorials for developers. Focus on PHP, Laravel, VueJS and Supabase",
   "language": "en-us",
-  "siteUrl": "https://www.kronic.dev/",
+  "siteUrl": "https://www.kronic.dev",
   "siteRepo": "https://github.com/benlittlenz/blog",
   "image": "/static/images/avatar.png",
   "socialBanner": "/static/images/twitter-card.png",
