@@ -15,16 +15,16 @@ Before we dive in, here is a quick example on how we can create a foreign relati
 ## One To One
 A one-to-one relationship is an easy relationship to picture in your head. What is one record associated with? In the following example, a `User` is associated with one `Vehicle`. We can summarize our relationships like so:
 
-```
-  users
-    id - int8
-    name - text
-    car_id - int8
+```markup
+users
+  id - int8
+  name - text
+  car_id - int8
 
-  vehicles
-    id - int8
-    make - text
-    model - text
+vehicles
+  id - int8
+  make - text
+  model - text
 ```
 
 The `car_id` in the `users` table is creating a foreign relationship back to the `cars` table referencing a cars `id`.
@@ -52,15 +52,15 @@ The above relationship can also be inversed, by setting a `user_id` on the `cars
 
 A one-to-many relationship is used to define relationships where a single record is parent to one or more child records. In this example, we will use the concept of posts and comments, where a post can have many comments. We can summarize this relationship like so:
 
-```
-  posts
-    id - int8
-    content - text
+```markup
+posts
+  id - int8
+  content - text
 
-  comments
-    id - int8
-    post_id - int8
-    content - text
+comments
+  id - int8
+  post_id - int8
+  content - text
 ```
 
 Just like a one-to-one relationship, we are creating a foreign relationship `post_id` in the `comments` table, however, many comments can have a posts `id`.
@@ -88,30 +88,30 @@ To define a many to many relationship, we need to define three database tables: 
 
 This `post_tag` should contain two columns `post_id` and `tag_id`. We can summarize the relationship structure like so:
 
-```
-  posts
-    id - int8
-    content - text
+```markup
+posts
+  id - int8
+  content - text
 
-  tags
-    id - int8
-    name - text
+tags
+  id - int8
+  name - text
 
-  post_tag
-   post_id - int8
-   tag_id - int8
+post_tag
+  post_id - int8
+  tag_id - int8
 ```
 
 **Note:** `post_id` and `tag_id` columns in the `post_tag` table should both have a foreign relationship back to the respective tables.
 
 Now we can populate our `post_tag` referencing a `post_id` and a `tag_id` which could look something like this:
 
-`post_tag`
-| id  | post_id | tag_id |
-| ----|:-------:| ------:|
-|  1  |    1    |   1    |
-|  2  |    1    |   2    |
-|  3  |    1    |   3    |
+| id        | post_id           | tag_id  |
+| ------------- |:-------------:| -----:|
+| 1      | 1 | 1 |
+| 2      | 1      |   2 |
+| 3 | 1     |    3 |
+
 
 We can now write a query to fetch our `posts` containing an array of tags.
 
