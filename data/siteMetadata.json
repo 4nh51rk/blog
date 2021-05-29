@@ -1,18 +1,14 @@
 {
   "title": "Blog - Ben Little",
   "author": "Ben Little",
-  "headerTitle": "Blog",
-  "description": "A blog created with Next.js and Tailwind.css",
+  "headerTitle": "Kronic",
+  "description": "Tutorials for developers. Focus on PHP, Laravel, VueJS and Supabase",
   "language": "en-us",
   "siteUrl": "https://blog-cv95n1kq6-benlittlenz.vercel.app/",
   "siteRepo": "https://github.com/benlittlenz/blog",
   "image": "/static/images/avatar.png",
   "socialBanner": "/static/images/twitter-card.png",
   "email": "benlittle53@gmail.com",
-  "github": "https://github.com",
-  "twitter": "https://twitter.com/Twitter",
-  "facebook": "https://facebook.com",
-  "youtube": "https://youtube.com",
-  "linkedin": "https://www.linkedin.com",
+  "github": "https://github.com/benlittlenz",
   "locale": "en-US"
 }

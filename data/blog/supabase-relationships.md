@@ -1,18 +1,18 @@
 ---
 title: Supabase Relationships
 date: '2021-05-29'
-tags: ['supabase', 'relationships', 'one-to-many', 'many-to-many']
+tags: ['supabase', 'relationships', 'one-to-one', 'one-to-many', 'many-to-many']
 draft: false
 summary:
 ---
 
 # Defining Relationships
-Database tables are often relted to one another, usually by a one-to-one relationship or a
+Database tables are often relted to one another, usually by using one-to-one or one-to-many relationship or by a many-to-many relationship.
 
 ## One To One
 A one-to-one relationship is a very basic type of database relationship. In the following example, a `User` is associated with one `Vehicle`. We can summarize our relationships like so:
 
-```
+```text
   users
     id - int8
     name - text
@@ -49,7 +49,7 @@ The above relationship can also be inversed, by setting a `user_id` on the `cars
 
 A one-to-many relationship is used to define relationships where a single record is parent to one or more child records. In this example, we will use the concept of posts and comments, where a post can have many comments. We can summarize this relationship like so:
 
-```
+```text
   posts
     id - int8
     content - text
@@ -83,7 +83,7 @@ To define a many to many relationship, we need to define three database tables: 
 
 This `post_tag` should contain two columns `post_id` and `tag_id`. We can summarize the relationship structure like so:
 
-```
+```text
   posts
     id - int8
     content - text
