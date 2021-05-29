@@ -3,14 +3,17 @@ title: Supabase Relationships
 date: '2021-05-29'
 tags: ['supabase', 'relationships', 'one-to-one', 'one-to-many', 'many-to-many']
 draft: false
-summary:
+summary: Let's review creating one-to-one, one-to-many and many-to-many relationships with Supabase.
 ---
 
 # Defining Relationships
-Database tables are often relted to one another, usually by using one-to-one or one-to-many relationship or by a many-to-many relationship.
+Database tables are often relted to one another, usually by using one-to-one, one-to-many or many-to-many relationship.
+
+Before we dive in, here is a quick example on how we can create a foreign relationship inside the GUI.
+![foreign-relationship](https://user-images.githubusercontent.com/39175284/120087385-94e1f680-c13b-11eb-9cc8-b0c4b4a28e5a.gif)
 
 ## One To One
-A one-to-one relationship is a very basic type of database relationship. In the following example, a `User` is associated with one `Vehicle`. We can summarize our relationships like so:
+A one-to-one relationship is an easy relationship to picture in your head. What is one record associated with? In the following example, a `User` is associated with one `Vehicle`. We can summarize our relationships like so:
 
 ```
   users
@@ -24,7 +27,7 @@ A one-to-one relationship is a very basic type of database relationship. In the 
     model - text
 ```
 
-To now create a one-to-one relationship between a user and a car, create a new `car_id` column in the `users` table and create a foreign relationship back to the `cars` table, referencing the `id`.
+The `car_id` in the `users` table is creating a foreign relationship back to the `cars` table referencing a cars `id`.
 
 We can now write a query to fetch the `id` and `name` columns from the `users` table, as well as the `make` and `model` from a car referenced to a user.
 
@@ -59,6 +62,8 @@ A one-to-many relationship is used to define relationships where a single record
     post_id - int8
     content - text
 ```
+
+Just like a one-to-one relationship, we are creating a foreign relationship `post_id` in the `comments` table, however, many comments can have a posts `id`.
 
 We can now write a query to fetch all posts and comments related to the post.
 
