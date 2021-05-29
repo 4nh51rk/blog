@@ -49,15 +49,6 @@ export default function PostLayout({ children, frontMatter, next, prev }) {
                     <dl className="text-sm font-medium leading-5 whitespace-nowrap">
                       <dt className="sr-only">Name</dt>
                       <dd className="text-gray-900 dark:text-gray-100">{siteMetdata.author}</dd>
-                      <dt className="sr-only">Twitter</dt>
-                      <dd>
-                        <Link
-                          href={siteMetdata.twitter}
-                          className="text-blue-500 hover:text-blue-600 dark:hover:text-blue-400"
-                        >
-                          {siteMetdata.twitter.replace('https://twitter.com/', '@')}
-                        </Link>
-                      </dd>
                     </dl>
                   </li>
                 </ul>
