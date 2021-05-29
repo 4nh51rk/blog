@@ -4,11 +4,15 @@
   "headerTitle": "Kronic",
   "description": "Tutorials for developers. Focus on PHP, Laravel, VueJS and Supabase",
   "language": "en-us",
-  "siteUrl": "https://blog-cv95n1kq6-benlittlenz.vercel.app/",
+  "siteUrl": "https://www.kronic.dev/",
   "siteRepo": "https://github.com/benlittlenz/blog",
   "image": "/static/images/avatar.png",
   "socialBanner": "/static/images/twitter-card.png",
   "email": "benlittle53@gmail.com",
-  "github": "https://github.com/benlittlenz",
+  "github": "https://github.com",
+  "twitter": "https://twitter.com/Twitter",
+  "facebook": "https://facebook.com",
+  "youtube": "https://youtube.com",
+  "linkedin": "https://www.linkedin.com",
   "locale": "en-US"
 }

@@ -12,7 +12,7 @@ Database tables are often relted to one another, usually by using one-to-one or 
 ## One To One
 A one-to-one relationship is a very basic type of database relationship. In the following example, a `User` is associated with one `Vehicle`. We can summarize our relationships like so:
 
-```text
+```
   users
     id - int8
     name - text
@@ -49,7 +49,7 @@ The above relationship can also be inversed, by setting a `user_id` on the `cars
 
 A one-to-many relationship is used to define relationships where a single record is parent to one or more child records. In this example, we will use the concept of posts and comments, where a post can have many comments. We can summarize this relationship like so:
 
-```text
+```
   posts
     id - int8
     content - text
@@ -83,7 +83,7 @@ To define a many to many relationship, we need to define three database tables: 
 
 This `post_tag` should contain two columns `post_id` and `tag_id`. We can summarize the relationship structure like so:
 
-```text
+```
   posts
     id - int8
     content - text
