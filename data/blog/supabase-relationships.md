@@ -9,9 +9,23 @@ summary:
 # Defining Relationships
 
 ## One To One
-A one-to-one relationship is a very basic type of database relationship. In the following example, a `User` is associated with one `Vehicle`. To keep things simple, let's say we have just a `name` column on our `Users` table, and `make` and `model` columns on our `Vehicles` table.
+A one-to-one relationship is a very basic type of database relationship. In the following example, a `User` is associated with one `Vehicle`. We can summarize our relationships like so:
 
-To assign a car to a user, we can have a new column on the `Users` table called `car_id` specifying a `Car` id into here. This allows us to access a user, and their car in one query.
+```
+  users
+    id - int8
+    name - text
+    car_id - int8
+
+  vehicles
+    id - int8
+    make - text
+    model - text
+```
+
+To now create a one-to-one relationship between a user and a car, create a new `car_id` column in the `users` table and create a foreign relationship back to the `cars` table, referencing the `id`.
+
+We can now write a query to fetch the `id` and `name` columns from the `users` table, as well as the `make` and `model` from a car referenced to a user.
 
 ```javascript
   const fetchUsers = async () => {
@@ -27,15 +41,14 @@ To assign a car to a user, we can have a new column on the `Users` table called 
     if (error) console.log("error", error);
   };
 ```
-In the above query, we are fetching the `id` and `name` from the `Users` table as well as `make` and `model` from the `Cars` table.
 
-This can also defined as a inverse relationship by setting a `user_id` on the `Cars` table.
+The above relationship can also be inversed, by setting a `user_id` on the `cars` table.
 
 ## Many To Many
 
-A post can have many tags, and a tag can have many posts. Again, to keep our tables simple, our `Posts` table will only contain a `content` column and our `Tags` table will contain a `name` column.
+A many-to-many relationship is where more than one record in one table is related to more than one in another. We can illustrate this by using posts and tags. A post can have many tags, while tags can have many posts.
 
-To define a many to many relationship, we need to define three database tables: `posts`, `tags` and `post_tag`. The general naming convention of the `post_tag` linking/pivot table is to take the two table names and put them in alphabetical order, underscore seperated and singular.
+To define a many to many relationship, we need to define three database tables: `posts`, `tags` and `post_tag`. The `post_tag` table is generally called a pivot table, and has a general naming convention of being in alphabetical order, underscore seperated and singular wording.
 
 This `post_tag` should contain two columns `post_id` and `tag_id`. We can summarize the relationship structure like so:
 
@@ -53,9 +66,9 @@ This `post_tag` should contain two columns `post_id` and `tag_id`. We can summar
    tag_id - int8
 ```
 
-**Note:** When creating columns in our `post_tag` pivot table, you must add a foreign key referncing this column to a table.
+**Note:** `post_id` and `tag_id` columns in the `post_tag` table should both have a foreign relationship back to the respective tables.
 
-Now we can populate our `post_tag` referencing a `post_id` and a `tag_id`.
+Now we can populate our `post_tag` referencing a `post_id` and a `tag_id` which could look something like this:
 
 `post_tag`
 | id  | post_id | tag_id |
@@ -63,6 +76,8 @@ Now we can populate our `post_tag` referencing a `post_id` and a `tag_id`.
 |  1  |    1    |   1    |
 |  2  |    1    |   2    |
 |  3  |    1    |   3    |
+
+We can now write a query to fetch our `posts` containing an array of tags.
 
 ```javascript
   const fetchPosts = async () => {
@@ -76,4 +91,5 @@ Now we can populate our `post_tag` referencing a `post_id` and a `tag_id`.
     if (error) console.log("error", error);
   };
 ```
-In the query above, we're selecting `Posts` `id` and `conent` columns and fetching all `Tags` related to that post. The above query can also be inversed, so we fetch all `tags` and all `posts` related to a tag.
+
+Again, the above query can be inversed to fetch all `tags` and `posts` related to each tag.
