@@ -240,7 +240,85 @@ Passing through the page count, posts per page, current page and a function to s
   )
 }
 ```
+We can calculate the page count by dividing the posts count by records per page and using `Math.ceil` to round the number to the nearest integer.
+
 ```jsx
 export default function Pagination({ count, perPage, currentPage, setCurrentPage }) {
   const pageCount = Math.ceil(count / perPage);
+
+  // ...
+}
+```
+
+Now that we have our page count, we can create an array of numbers and render a list of pages depending on the record count increasing by +1 as 0 is the starting index
+
+```jsx
+  <ul className="flex pl-0 list-none rounded my-2">
+    {[...Array(pageCount)].map((e, page) => (
+      <li className="cursor-pointer" key={page + 1}>
+        <a
+          className="px-3 py-2 text-center inline-flex items-center text-sm leading-5 font-medium hover:text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-none transition ease-in-out duration-150"
+        >
+          {page + 1}
+        </a>
+      </li>
+
+    ))}
+  </ul>
+```
+
+Next, we create a function `changePage` which takes in a page number and sets the current page back in our table component which will fetch new posts from out database.
+
+```jsx
+export default function Pagination({ count, perPage, currentPage, setCurrentPage }) {
+  const pageCount = Math.ceil(count / perPage);
+
+  const changePage = (page) => {
+    if (page <= 0 || page > pageCount) {
+      return;
+    }
+    setCurrentPage(page);
+  }
+}
+```
+
+Now we can call this `changePage` method and adjust the current page by incrementing / decrementing.
+
+```jsx
+  return (
+    <div className="flex justify-between">
+      <div className="flex items-center">
+        <div className="">
+          <a
+            onClick={() => changePage(currentPage - 1)}
+            className={`mr-4 px-2 py-2 inline-flex items-center ${currentPage === 1 ? ' cursor-not-allowed' : ' cursor-pointer '} text-sm leading-5 font-medium hover:text-gray-800 hover:bg-gray-100 rounded-lg text-gray-500 focus:outline-none transition ease-in-out duration-150`}
+          >
+            Previous
+          </a>
+        </div>
+        <ul className="flex pl-0 list-none rounded my-2">
+          {[...Array(pageCount)].map((e, page) => (
+            <li className="cursor-pointer" key={page + 1}>
+              <a
+                onClick={() => changePage(page + 1)}
+                className="px-3 py-2 text-center inline-flex items-center text-sm leading-5 font-medium hover:text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-none transition ease-in-out duration-150"
+              >
+                {page + 1}
+              </a>
+            </li>
+
+          ))}
+        </ul>
+        <div className="flex justify-end">
+          <a
+            onClick={() => changePage(currentPage + 1)}
+            className={`ml-4 px-2 py-2 inline-flex items-center ${currentPage === pageCount ? ' cursor-not-allowed' : ' cursor-pointer '} text-sm leading-5 font-medium hover:text-gray-800 hover:bg-gray-100 rounded-lg text-gray-500 focus:outline-none transition ease-in-out duration-150`}
+          >
+            Next
+          </a>
+        </div>
+      </div>
+    </div>
+
+  )
 ```
