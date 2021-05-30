@@ -12,6 +12,10 @@ In this tutorial, we'll set up a simple data-table with pagination using ReactJS
 
 This tutorial assumes you have a basic understanding of how supabase works and a project already setup. If not click here https://supabase.io/docs/guides/with-react to view the offical quick-start guide using React.
 
+Here is what we will be building:
+
+![table-demo](https://user-images.githubusercontent.com/39175284/120092175-26199300-c165-11eb-8d6a-f5c1c9bf93be.gif)
+
 In this example, we will be rendering a list of posts and displaying the posts in a table with pagination. This post table looks like so:
 
 ```markup
@@ -25,6 +29,7 @@ In this example, we will be rendering a list of posts and displaying the posts i
     id - int8
     name - text
 ```
+
 
 Let's start off by creating a `Table` component and create a a function to fetch posts from our database.
 
