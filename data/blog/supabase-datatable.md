@@ -1,7 +1,7 @@
 ---
-title: Supabase Relationships
+title: Supabase Data Table
 date: '2021-05-29'
-tags: ['supabase', 'relationships', 'one-to-one', 'one-to-many', 'many-to-many']
+tags: ['supabase', 'data-table', 'react', 'superbase tutorial']
 draft: false
 summary: Let's review creating one-to-one, one-to-many and many-to-many relationships with Supabase.
 ---
@@ -33,7 +33,7 @@ In this example, we will be rendering a list of posts and displaying the posts i
 
 Let's start off by creating a `Table` component and create a a function to fetch posts from our database.
 
-```jsx
+```jsx:src/components/Table
 export default function Table() {
   const [posts, setPosts] = useState([]);
   useEffect(() => {
@@ -59,7 +59,7 @@ In the code above, when the component mounts in the `useEffect` function, we are
 
 Next up, let's create our table markup and render each post to our data.
 
-```jsx
+```jsx:src/components/Table
   return (
     <div className="flex flex-col h-screen">
       <div className="-my-2 h-2/3 overflow-auto sm:-mx-6 lg:-mx-8">
@@ -141,7 +141,11 @@ Depending on how much data you currently have in your database, this render may 
 
 To accomplish this, we should fetch the total count of posts, and then only fetch a small amount of posts, based on what page of the table the user is currently on.
 
-```jsx
+```jsx{6,9-14}:src/components/Table
+export default function Table() {
+  const [posts, setPosts] = useState([]);
+  const [count, setCount] = useState(0);
+
   useEffect(() => {
     fetchCount().then(() => fetchPosts())
   }, []);
@@ -153,17 +157,24 @@ To accomplish this, we should fetch the total count of posts, and then only fetc
     setCount(count)
   }
 ```
+
 In the example above, we have created a new function `fetchCount` which selects all records from our `posts` table returning the exact count and setting this value to local state. This function is then being called in the `useEffect` hook first, then fetching posts after.
 
 We next need to track two pieces of data, the current page the user is on, and the number of records to show for each page.
 
-```jsx
+```jsx{4,5}:src/components/Table
+export default function Table() {
+  const [posts, setPosts] = useState([]);
+  const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(25);
+
+  // ...
+}
 ```
 And modify our useEffect function to refetch our posts when a page has been changed.
 
-```jsx
+```jsx{3}:src/components/Table
   useEffect(() => {
     fetchCount().then(() => fetchPosts())
   }, [currentPage]);
@@ -171,7 +182,7 @@ And modify our useEffect function to refetch our posts when a page has been chan
 
 Back in our `fetchPosts` function, we need to specify the range of records to fetch, we can do this accomplish this by using the `range` function and specifying a start and end index.
 
-```jsx
+```jsx:src/components/Table
   const fetchPosts = async () => {
     const startIndex = (currentPage * perPage) - perPage
     const endIndex = (currentPage * perPage) - 1
@@ -196,7 +207,7 @@ This will fetch 25 records per page.
 
 Next, we're ready to create out pagination component with the following markup:
 
-```jsx
+```jsx:src/components/Pagination
 export default function Pagination() {
   return (
     <div className="flex justify-between">
@@ -222,7 +233,7 @@ export default function Pagination() {
             className="px-3 py-2 text-center inline-flex items-center text-sm leading-5 font-medium hover:text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-none transition ease-in-out duration-150"
           >
             Next
-      </a>
+          </a>
         </div>
       </div>
     </div>
@@ -232,7 +243,7 @@ export default function Pagination() {
 
 Passing through the page count, posts per page, current page and a function to set the current page.
 
-```jsx
+```jsx:src/components/Pagination
     /* ... */
     </div>
       <Pagination
@@ -247,7 +258,7 @@ Passing through the page count, posts per page, current page and a function to s
 ```
 We can calculate the page count by dividing the posts count by records per page and using `Math.ceil` to round the number to the nearest integer.
 
-```jsx
+```jsx{1,2}:src/components/Pagination
 export default function Pagination({ count, perPage, currentPage, setCurrentPage }) {
   const pageCount = Math.ceil(count / perPage);
 
@@ -257,7 +268,7 @@ export default function Pagination({ count, perPage, currentPage, setCurrentPage
 
 Now that we have our page count, we can create an array of numbers and render a list of pages depending on the record count increasing by +1 as 0 is the starting index
 
-```jsx
+```jsx{2,3,5,8}:src/components/Pagination
   <ul className="flex pl-0 list-none rounded my-2">
     {[...Array(pageCount)].map((e, page) => (
       <li className="cursor-pointer" key={page + 1}>
@@ -267,14 +278,13 @@ Now that we have our page count, we can create an array of numbers and render a 
           {page + 1}
         </a>
       </li>
-
     ))}
   </ul>
 ```
 
 Next, we create a function `changePage` which takes in a page number and sets the current page back in our table component which will fetch new posts from out database.
 
-```jsx
+```jsx{4-9}:src/components/Pagination
 export default function Pagination({ count, perPage, currentPage, setCurrentPage }) {
   const pageCount = Math.ceil(count / perPage);
 
@@ -289,7 +299,7 @@ export default function Pagination({ count, perPage, currentPage, setCurrentPage
 
 Now we can call this `changePage` method and adjust the current page by incrementing / decrementing.
 
-```jsx
+```jsx{5,13,14,21}:src/components/Pagination
   return (
     <div className="flex justify-between">
       <div className="flex items-center">
@@ -326,4 +336,21 @@ Now we can call this `changePage` method and adjust the current page by incremen
     </div>
 
   )
+```
+
+Finally, we can add a start and end index to show what records we are displaying in the table (i.e. 1 to 25).
+```jsx{3,4}:src/components/Pagination
+export default function Pagination({ count, perPage, currentPage, setCurrentPage }) {
+  const pageCount = Math.ceil(count / perPage);
+  const startIndex = ((currentPage * perPage) - perPage) + 1;
+  const endIndex = (currentPage * perPage);
+
+  // ...
+```
+
+```jsx{3}:src/components/Pagination
+  return (
+    <div className="flex justify-between">
+      <div className="my-4"><p>Showing {startIndex} to {endIndex}</p></div>
+      {/* ... */}
 ```
